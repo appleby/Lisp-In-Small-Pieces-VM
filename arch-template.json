@@ -68,6 +68,11 @@
             "execute_command": "{{ .Vars }} sudo -E -S bash '{{ .Path }}'",
             "script": "scripts/install-virtualbox.sh"
         },
+	{
+            "type": "shell",
+            "execute_command": "{{ .Vars }} sudo -E -S bash '{{ .Path }}'",
+            "script": "scripts/lisp-in-small-pieces.sh"
+        },
         {
             "only": ["virtualbox-iso", "vmware-iso"],
             "type": "shell",
