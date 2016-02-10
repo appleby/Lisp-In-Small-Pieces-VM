@@ -81,7 +81,30 @@
         }
     ],
     "post-processors": [
-        [{
+	[{
+	    "type": "compress"
+	 },
+	 {
+            "type": "atlas",
+            "only": ["virtualbox-iso"],
+            "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+            "artifact_type": "virtualbox.image",
+            "metadata": {
+                "provider": "virtualbox",
+                "created_at": "{{timestamp}}"
+            }
+        },
+        {
+            "type": "atlas",
+            "only": ["vmware-iso"],
+            "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+            "artifact_type": "vmware.image",
+            "metadata": {
+                "provider": "vmware",
+                "created_at": "{{timestamp}}"
+            }
+        }],
+	[{
             "type": "vagrant"
         },
         {
