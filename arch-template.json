@@ -69,7 +69,7 @@
             "script": "scripts/install-virtualbox.sh"
         },
         {
-            "only": ["virtualbox-iso"],
+            "only": ["virtualbox-iso", "vmware-iso"],
             "type": "shell",
             "execute_command": "{{ .Vars }} sudo -E -S bash '{{ .Path }}'",
             "script": "scripts/cleanup.sh"
