@@ -1,5 +1,18 @@
 {
+    "push": {
+      "name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+      "vcs": true,
+      "exclude": [
+          "LICENSE",
+          "README.md",
+          "atlas_env.sh",
+          "atlas_push.sh",
+          "wrapacker"
+      ]
+    },
     "variables": {
+        "atlas_username": "{{env `ATLAS_USERNAME`}}",
+        "atlas_name": "{{env `ATLAS_NAME`}}",
         "iso_url": "https://mirrors.kernel.org/archlinux/iso/2016.02.01/archlinux-2016.02.01-dual.iso",
         "iso_checksum": "37427c722ffc57c15fb984287c34d5d48cc84247",
         "iso_checksum_type": "sha1",
@@ -57,9 +70,28 @@
         }
     ],
     "post-processors": [
+        [{
+            "type": "vagrant"
+        },
         {
-            "type": "vagrant",
-            "output": "output/packer_arch_{{ .Provider }}.box"
-        }
+            "type": "atlas",
+            "only": ["virtualbox-iso"],
+            "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+            "artifact_type": "vagrant.box",
+            "metadata": {
+                "provider": "virtualbox",
+                "created_at": "{{timestamp}}"
+            }
+        },
+        {
+            "type": "atlas",
+            "only": ["vmware-iso"],
+            "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
+            "artifact_type": "vagrant.box",
+            "metadata": {
+                "provider": "vmware",
+                "created_at": "{{timestamp}}"
+            }
+        }]
     ]
 }
