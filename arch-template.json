@@ -21,6 +21,7 @@
     "builders": [
         {
             "type": "virtualbox-iso",
+	    "vm_name": "{{user `atlas_name`}}",
             "iso_url": "{{ user `iso_url` }}",
             "iso_checksum": "{{ user `iso_checksum` }}",
             "iso_checksum_type": "{{ user `iso_checksum_type` }}",
@@ -43,6 +44,7 @@
         },
         {
             "type": "vmware-iso",
+	    "vm_name": "{{user `atlas_name`}}",
             "iso_url": "{{ user `iso_url` }}",
             "iso_checksum": "{{ user `iso_checksum` }}",
             "iso_checksum_type": "{{ user `iso_checksum_type` }}",
