@@ -1,5 +1,8 @@
 #!/usr/bin/bash -x
 
+echo "==> Setting hostname"
+echo lisp-in-small-pieces-vm > /etc/hostname
+
 echo "==> Installing git gambit-c and bigloo"
 /usr/bin/pacman -S --noconfirm git gambit-c bigloo
 
