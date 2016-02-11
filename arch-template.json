@@ -72,7 +72,7 @@
         },
 	{
             "type": "shell",
-            "execute_command": "{{ .Vars }} sudo -E -S bash '{{ .Path }}'",
+            "execute_command": "{{ .Vars }} sudo -E -u vagrant -S bash '{{ .Path }}'",
             "script": "scripts/lisp-in-small-pieces.sh"
         },
         {

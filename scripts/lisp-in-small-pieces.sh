@@ -1,13 +1,13 @@
 #!/usr/bin/bash -x
 
 echo "==> Setting hostname"
-echo lisp-in-small-pieces-vm > /etc/hostname
+echo lisp-in-small-pieces-vm | sudo tee /etc/hostname > /dev/null
 
 echo "==> Installing git gambit-c and bigloo"
-/usr/bin/pacman -S --noconfirm git gambit-c bigloo
+sudo /usr/bin/pacman -S --noconfirm git gambit-c bigloo
 
 echo "==> Creating tmpdir"
-tmpdir=$(/usr/bin/mktemp --directory)
+tmpdir=$(/usr/bin/mktemp --directory --tmpdir=${HOME})
 pushd ${tmpdir}
 
 echo "==> Installing cower"
