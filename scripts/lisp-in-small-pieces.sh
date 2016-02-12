@@ -1,4 +1,6 @@
-#!/usr/bin/bash -x
+#!/usr/bin/bash
+
+set -e
 
 echo "==> Setting hostname"
 echo lisp-in-small-pieces-vm | sudo tee /etc/hostname > /dev/null
