@@ -6,16 +6,12 @@
 
 **If you just want to run the scheme code for the book
 [_Lisp In Small Pieces_][LiSP], have a look at
-[appleby/Lisp-In-Small-Pieces][appleby-LiSP], instead.**
+[appleby/Lisp-In-Small-Pieces][appleby-LiSP].** The README file for
+[appleby/Lisp-In-Small-Pieces][appleby-LiSP] explains how to setup a
+virtual dev environment using the VMs created here.
 
-The README file for [appleby/Lisp-In-Small-Pieces][appleby-LiSP]
-explains how to setup a virtual dev environment using the VMs created
-here.
-
-**If you just want an example of a packer template that builds an
-Arch Linux system, have a look at
-[elasticdog/packer-arch][packer-arch].**
-
+**If you just want an example of a packer template that builds an Arch
+Linux system, have a look at [elasticdog/packer-arch][packer-arch].**
 This repo is derived from [elasticdog/packer-arch.][packer-arch].
 
 
@@ -37,7 +33,7 @@ this build are:
 
 ## For the Adventurous Soul
 
-If, for some reason, you want to use these scripts to push your own
+If you want to use these scripts to push your own
 lisp-in-small-pieces-vm build to Atlas, here is what to do:
 
 1. Set `ATLAS_USERNAME` and (optionally) `ATLAS_NAME` in
