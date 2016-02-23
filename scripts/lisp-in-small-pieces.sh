@@ -26,7 +26,13 @@ echo "==> Installing mit-scheme"
 pushd mit-scheme
 /usr/bin/makepkg -scri --noconfirm
 popd
-popd # Pop out of tmpdir
 
+echo "==> Installing caml-light"
+/usr/bin/git clone https://github.com/aur-archive/caml-light.git
+pushd caml-light
+/usr/bin/makepkg -scri --noconfirm
+popd
+
+popd # Pop out of tmpdir
 echo "==> Removing tmpdir"
 rm -rf ${tmpdir}
