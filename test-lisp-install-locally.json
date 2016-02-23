@@ -1,0 +1,27 @@
+{
+    "variables": {
+        "ssh_port": "2222",
+        "ssh_timeout": "60m"
+    },
+    "builders": [
+        {
+            "type": "null",
+            "ssh_host": "127.0.0.1",
+            "ssh_port": "{{ user `ssh_port` }}",
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+            "ssh_timeout": "{{ user `ssh_timeout` }}"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "script": "scripts/lisp-in-small-pieces.sh"
+        },
+        {
+            "type": "shell",
+            "execute_command": "{{ .Vars }} sudo -E -S bash '{{ .Path }}'",
+            "script": "scripts/cleanup.sh"
+        }
+    ]
+}
