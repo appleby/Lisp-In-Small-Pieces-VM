@@ -5,8 +5,8 @@ set -e
 echo "==> Setting hostname"
 echo lisp-in-small-pieces-vm | sudo tee /etc/hostname > /dev/null
 
-echo "==> Installing git gambit-c bigloo and indent"
-sudo /usr/bin/pacman -S --noconfirm git gambit-c bigloo indent
+echo "==> Installing git gambit-c bigloo indent and time"
+sudo /usr/bin/pacman -S --noconfirm git gambit-c bigloo indent time
 
 echo "==> Creating tmpdir"
 tmpdir=$(/usr/bin/mktemp --directory --tmpdir=${HOME})
