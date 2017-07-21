@@ -79,7 +79,7 @@ print_valid_countries() {
 # print the list of valid providers to stderr
 print_valid_providers() {
 	printf '\n*** VALID PROVIDERS ***\n\n' >&2
-	for provider in {parallels,virtualbox,vmware}; do
+	for provider in {parallels,virtualbox,vmware,libvirt}; do
 		printf '%-6s\n' "$provider"
 	done | column >&2
 }
@@ -127,6 +127,10 @@ help() {
 	     -h, --help
 	            view this help message
 
+	     -e, --headless
+	            do not run the build in the GUI
+	            only works with --provider=virtualbox
+
 	AUTHOR
 	     Aaron Bull Schaefer <aaron@elasticdog.com>
 
@@ -146,6 +150,7 @@ country=''
 provider=''
 dry_run=''
 timeout=''
+headless=false
 
 # parse command line options
 while [[ $1 != '' ]]; do
@@ -181,6 +186,9 @@ while [[ $1 != '' ]]; do
 			print_valid_time_units
 			exit 0
 			;;
+		-e| --headless)
+			headless=true
+			;;
 		--*)
 			warn "unknown option -- ${1#--}"
 			usage
@@ -206,6 +214,9 @@ if [[ $provider ]]; then
 		vmware | vmware-iso)
 			PACKER_PROVIDER='vmware-iso'
 			;;
+		libvirt | qemu)
+			PACKER_PROVIDER='qemu'
+			;;
 		*)
 			warn "unknown provider -- ${provider}"
 			usage
@@ -229,13 +240,12 @@ if [[ $country ]]; then
 	fi
 else
 	MIRROR='https://mirrors.kernel.org/archlinux'
+	country='US'
 fi
 
-SHA1SUMS=$(curl -s "${MIRROR}/iso/latest/sha1sums.txt")
-ISO_NAME=$(echo "$SHA1SUMS" | awk '/dual.iso/{ print $2 }')
-
+ISO_CHECKSUM_URL="${MIRROR}/iso/latest/sha1sums.txt"
+ISO_NAME=$(curl -s "$ISO_CHECKSUM_URL" | awk '/-x86_64.iso/{ print $2 }')
 ISO_URL="${MIRROR}/iso/latest/${ISO_NAME}"
-ISO_CHECKSUM=$(echo "$SHA1SUMS" | awk '/dual.iso/{ print $1 }')
 
 if [[ $timeout ]]; then
 	if [[ "$timeout" =~ ^[0-9]+(ns|us|ms|s|m|h)$ ]]; then
@@ -255,16 +265,20 @@ if [[ $dry_run ]]; then
 		$PACKER_BIN build \\
 			-only=$PACKER_PROVIDER \\
 			-var "iso_url=$ISO_URL" \\
-			-var "iso_checksum=$ISO_CHECKSUM" \\
+			-var "iso_checksum_url=$ISO_CHECKSUM_URL" \\
 			-var "ssh_timeout=$SSH_TIMEOUT" \\
+			-var "country=$country" \\
+			-var "headless=$headless" \\
 			arch-template.json
 	EOF
 else
 	$PACKER_BIN build \
 		-only=$PACKER_PROVIDER \
 		-var "iso_url=$ISO_URL" \
-		-var "iso_checksum=$ISO_CHECKSUM" \
+		-var "iso_checksum_url=$ISO_CHECKSUM_URL" \
 		-var "ssh_timeout=$SSH_TIMEOUT" \
+		-var "country=$country" \
+		-var "headless=$headless" \
 		arch-template.json
 fi
 
