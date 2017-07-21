@@ -120,7 +120,8 @@
     ],
     "post-processors": [
         [{
-            "type": "vagrant"
+            "type": "vagrant",
+	    "output": "output/archlinux-x86_64-base-{{ .Provider }}.box"
         }]
     ]
 }
