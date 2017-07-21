@@ -1,19 +1,5 @@
 {
-    "push": {
-      "name": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-      "vcs": true,
-      "exclude": [
-          "LICENSE",
-          "README.md",
-          "atlas_env.sh",
-          "atlas_push.sh",
-          "wrapacker"
-      ]
-    },
     "variables": {
-        "atlas_username": "{{env `ATLAS_USERNAME`}}",
-        "atlas_name": "{{env `ATLAS_NAME`}}",
-        "artifact_version": "0.{{env `ATLAS_BUILD_CONFIGURATION_VERSION`}}",
 	"iso_url": "https://mirrors.kernel.org/archlinux/iso/2017.07.01/archlinux-2017.07.01-x86_64.iso",
         "iso_checksum_url": "https://mirrors.kernel.org/archlinux/iso/2017.07.01/sha1sums.txt",
         "iso_checksum_type": "sha1",
@@ -135,28 +121,6 @@
     "post-processors": [
         [{
             "type": "vagrant"
-        },
-        {
-            "type": "atlas",
-            "only": ["virtualbox-iso"],
-            "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-            "artifact_type": "vagrant.box",
-            "metadata": {
-                "provider": "virtualbox",
-                "version": "{{user `artifact_version`}}",
-                "created_at": "{{timestamp}}"
-            }
-        },
-        {
-            "type": "atlas",
-            "only": ["vmware-iso"],
-            "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-            "artifact_type": "vagrant.box",
-            "metadata": {
-                "provider": "vmware",
-                "version": "{{user `artifact_version`}}",
-                "created_at": "{{timestamp}}"
-            }
         }]
     ]
 }
