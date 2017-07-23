@@ -1,5 +1,8 @@
 {
     "variables": {
+	"access_token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
+	"box_tag": "{{ env `VAGRANT_CLOUD_USERNAME` }}/{{ env `VAGRANT_CLOUD_NAME` }}",
+	"version": "{{ isotime `2006.01.02` }}",
 	"iso_url": "https://mirrors.kernel.org/archlinux/iso/2017.07.01/archlinux-2017.07.01-x86_64.iso",
         "iso_checksum_url": "https://mirrors.kernel.org/archlinux/iso/2017.07.01/sha1sums.txt",
         "iso_checksum_type": "sha1",
@@ -119,9 +122,17 @@
         }
     ],
     "post-processors": [
-        [{
-            "type": "vagrant",
-	    "output": "output/archlinux-x86_64-base-{{ .Provider }}.box"
-        }]
+        [
+	    {
+		"type": "vagrant",
+		"output": "output/archlinux-x86_64-base-{{ .Provider }}.box"
+            },
+	    {
+		"type": "vagrant-cloud",
+		"access_token": "{{ user `access_token` }}",
+		"box_tag": "{{ user `box_tag` }}",
+		"version": "{{ user `version` }}"
+	    }
+	]
     ]
 }
