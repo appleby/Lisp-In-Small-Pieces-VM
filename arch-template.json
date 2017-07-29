@@ -130,6 +130,19 @@
         }
     ],
     "post-processors": [
+	[
+	    {
+		"type": "compress",
+		"only": ["virtualbox-iso"],
+		"output": "output/{{ user `box_name` }}-virtualbox-v{{ user `version` }}.tar.gz"
+	    },
+	    {
+		"type": "checksum",
+		"only": ["virtualbox-iso"],
+		"checksum_types": ["sha256"],
+		"output": "output/{{ user `box_name` }}-virtualbox-v{{ user `version` }}.tar.gz.{{ .ChecksumType }}sum"
+	    }
+	],
         [
 	    {
 		"type": "vagrant",
