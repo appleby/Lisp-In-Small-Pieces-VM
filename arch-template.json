@@ -2,6 +2,7 @@
     "variables": {
 	"access_token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
 	"box_tag": "{{ env `VAGRANT_CLOUD_USERNAME` }}/{{ env `VAGRANT_CLOUD_NAME` }}",
+	"box_name": "{{ env `VAGRANT_CLOUD_NAME` }}",
 	"version": "{{ isotime `2006.01.02` }}",
 	"iso_url": "https://mirrors.kernel.org/archlinux/iso/2017.07.01/archlinux-2017.07.01-x86_64.iso",
         "iso_checksum_url": "https://mirrors.kernel.org/archlinux/iso/2017.07.01/sha1sums.txt",
@@ -35,7 +36,7 @@
         },
         {
             "type": "virtualbox-iso",
-	    "vm_name": "{{user `atlas_name`}}",
+	    "vm_name": "{{user `box_name`}}",
             "iso_url": "{{ user `iso_url` }}",
             "iso_checksum_url": "{{ user `iso_checksum_url` }}",
             "iso_checksum_type": "{{ user `iso_checksum_type` }}",
@@ -59,7 +60,7 @@
         },
         {
             "type": "vmware-iso",
-	    "vm_name": "{{user `atlas_name`}}",
+	    "vm_name": "{{user `box_name`}}",
             "iso_url": "{{ user `iso_url` }}",
             "iso_checksum_url": "{{ user `iso_checksum_url` }}",
             "iso_checksum_type": "{{ user `iso_checksum_type` }}",
@@ -80,6 +81,7 @@
         },
         {
             "type": "qemu",
+	    "vm_name": "{{user `box_name`}}",
             "iso_url": "{{ user `iso_url` }}",
             "iso_checksum_url": "{{ user `iso_checksum_url` }}",
             "iso_checksum_type": "{{ user `iso_checksum_type` }}",
@@ -131,7 +133,7 @@
         [
 	    {
 		"type": "vagrant",
-		"output": "output/archlinux-x86_64-base-{{ .Provider }}.box"
+		"output": "output/{{ user `box_name` }}-{{ .Provider }}.box"
             },
 	    {
 		"type": "vagrant-cloud",
