@@ -64,7 +64,7 @@ validate_country() {
 # print this script's usage message to stderr
 usage() {
 	cat <<-EOF >&2
-	usage: wrapacker [-c COUNTRY] [-p PROVIDER] [-t TIMEOUT] [-d] [-h]
+	usage: wrapacker [-c COUNTRY] [-p PROVIDER] [-t TIMEOUT] [-v VERSION] [-d] [-h]
 	EOF
 }
 
@@ -131,6 +131,9 @@ help() {
 	            do not run the build in the GUI
 	            only works with --provider=virtualbox
 
+	     -v, --version
+	            set the artifact version
+
 	AUTHOR
 	     Aaron Bull Schaefer <aaron@elasticdog.com>
 
@@ -151,6 +154,7 @@ provider=''
 dry_run=''
 timeout=''
 headless=false
+version=''
 
 # parse command line options
 while [[ $1 != '' ]]; do
@@ -188,6 +192,13 @@ while [[ $1 != '' ]]; do
 			;;
 		-e| --headless)
 			headless=true
+			;;
+		-v|--version)
+			version=$2
+			shift
+			;;
+		--version=*)
+			version=${1#*=}
 			;;
 		--*)
 			warn "unknown option -- ${1#--}"
@@ -260,6 +271,18 @@ else
 	SSH_TIMEOUT='20m'
 fi
 
+if [[ $version ]]; then
+    if [[ "$version" =~ ^v.*$ ]]; then
+	warn "INVALID VERSION: should not start with 'v' - %s" "$version"
+	usage
+	exit 1
+    fi
+else
+	warn "YOU MUST SPECIFY A VERSION"
+	usage
+	exit 1
+fi
+
 if [[ $dry_run ]]; then
 	cat <<-EOF
 		$PACKER_BIN build \\
@@ -269,6 +292,7 @@ if [[ $dry_run ]]; then
 			-var "ssh_timeout=$SSH_TIMEOUT" \\
 			-var "country=$country" \\
 			-var "headless=$headless" \\
+			-var "version=$version" \\
 			arch-template.json
 	EOF
 else
@@ -279,6 +303,7 @@ else
 		-var "ssh_timeout=$SSH_TIMEOUT" \
 		-var "country=$country" \
 		-var "headless=$headless" \
+		-var "version=$version" \
 		arch-template.json
 fi
 
