@@ -3,3 +3,4 @@ output/*.box
 output-qemu/*
 packer_cache
 .vagrant
+README.html
