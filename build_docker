@@ -2,7 +2,7 @@
 
 VERSION=${1:?usage: build_docker.sh VERSION}
 THISDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PACKER_FILE="$(dirname "${THISDIR}")/docker-template.json"
+PACKER_FILE="${THISDIR}/docker-template.json"
 
 if [[ "${VERSION}" =~ ^v.*$ ]]; then
     echo "INVALID VERSION: should not start with 'v' - ${VERSION}" >&2
