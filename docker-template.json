@@ -20,7 +20,10 @@
     "provisioners": [
 	{
 	    "type": "shell",
-	    "execute_command": "{{ .Vars }} sudo -E -S bash '{{ .Path }}'",
+	    "script": "scripts/pin_mirrorlist_to_archive.sh"
+	},
+	{
+	    "type": "shell",
             "script": "scripts/docker.sh"
 	},
 	{

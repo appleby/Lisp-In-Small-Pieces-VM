@@ -2,8 +2,6 @@
 
 set -eu
 
-pacman -Syy
-
 echo "==> Adding LiSP user"
 /usr/bin/useradd --comment 'LiSP User' --create-home --user-group lisper
 /usr/bin/install --directory --mode=750 /etc/sudoers.d
