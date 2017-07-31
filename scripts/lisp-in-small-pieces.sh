@@ -17,7 +17,8 @@ echo "==> Installing cower"
 /usr/bin/tar xf cower.tar.gz
 
 pushd cower
-/usr/bin/gpg --recv-key 487EACC08557AD082088DABA1EB2638FF56C0C53
+# IPv4 is required for the docker builder.
+/usr/bin/gpg --keyserver ipv4.pool.sks-keyservers.net --recv-key 487EACC08557AD082088DABA1EB2638FF56C0C53
 /usr/bin/makepkg -scri --noconfirm
 popd
 

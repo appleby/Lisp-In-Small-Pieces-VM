@@ -1,0 +1,39 @@
+{
+    "variables": {
+	"docker_repo": "appleby/lisp-in-small-pieces",
+	"docker_base_img": "archimg/base-devel",
+	"version": "{{ isotime `2006.01.02` }}"
+    },
+    "builders": [
+	{
+	    "type": "docker",
+	    "image": "{{ user `docker_base_img` }}",
+	    "commit": true,
+	    "changes": [
+		"LABEL version={{ user `version` }}",
+		"USER lisper",
+		"WORKDIR /home/lisper",
+		"CMD [\"/usr/bin/bash\"]"
+	    ]
+	}
+    ],
+    "provisioners": [
+	{
+	    "type": "shell",
+	    "execute_command": "{{ .Vars }} sudo -E -S bash '{{ .Path }}'",
+            "script": "scripts/docker.sh"
+	},
+	{
+	    "type": "shell",
+	    "execute_command": "{{ .Vars }} sudo -u lisper -E -S HOME=/home/lisper bash '{{ .Path }}'",
+            "script": "scripts/lisp-in-small-pieces.sh"
+	}
+    ],
+    "post-processors": [
+	{
+	    "type": "docker-tag",
+	    "repository": "{{ user `docker_repo` }}",
+	    "tag": "{{ user `version` }}"
+	}
+    ]
+}
