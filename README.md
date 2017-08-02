@@ -33,7 +33,7 @@ Output files are placed in the `output` directory.
 To build the docker image, run:
 
 ``` shell
-./build_docker <VERSION>
+./build_docker -v <VERSION>
 ```
 
 The image will be tagged as `appleby/lisp-in-small-pieces:VERSION`, and should appear in the list of images when you run `docker images`.

@@ -1,19 +1,152 @@
 #!/bin/bash
 
-VERSION=${1:?usage: build_docker.sh VERSION}
-THISDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PACKER_FILE="${THISDIR}/docker-template.json"
-
-if [[ "${VERSION}" =~ ^v.*$ ]]; then
-    echo "INVALID VERSION: should not start with 'v' - ${VERSION}" >&2
-    exit 1
-fi
-
-# stolen from wrapacker
 if [[ -f /etc/arch-release ]]; then
     readonly PACKER_BIN='packer-io'
 else
     readonly PACKER_BIN='packer'
 fi
 
-${PACKER_BIN} build -var "version=${VERSION}" "${PACKER_FILE}"
+warn() {
+    local fmt="$1"
+    shift
+    printf "wrapacker: $fmt\n" "$@" >&2
+}
+
+die() {
+    local st="$?"
+    if [[ "$1" != *[^0-9]* ]]; then
+	st="$1"
+	shift
+    fi
+    warn "$@"
+    exit "$st"
+}
+
+usage() {
+    cat <<-EOF >&2
+	usage: build_docker [-b BASE_IMAGE] [-r REPO] [-v VERSION] [-d] [-h]
+	EOF
+}
+
+elp() {
+	cat <<-EOF
+
+	NAME
+	     build_docker -- wrap packer to build the docker image
+
+	SYNOPSIS
+	     build_packer [options...]
+
+	DESCRIPTION
+
+	     build_packer is a convenience wrapper for running the
+	     docker build that allows overriding the default packer
+	     variables.
+
+	OPTIONS
+	     -b, --base-image=BASE_IMAGE
+	            the base docker base image to use, including tag
+	            defaults to archimg/base-devel
+
+	     -r, --repo=REPO
+	            the docker repo where the final image will be comitted
+	            defaults to appleby/lisp-in-small-pieces:VERSION
+
+	     -v, --version=VERSION
+	            set the artifact version
+
+	     -d, --dry-run
+	            do not actually perform the build, just show what would run
+
+	     -h, --help
+	            view this help message
+	EOF
+}
+
+##### Main
+
+# reset all variables that might be set
+docker_base_image=''
+docker_repo=''
+version=''
+dry_run=''
+
+# parse command line options
+while [[ $1 != '' ]]; do
+	case $1 in
+		-b | --base-image)
+			docker_base_image=$2
+			shift
+			;;
+		--base-image=*)
+			docker_base_image=${1#*=}
+			;;
+		-r | --repo)
+			docker_repo=$2
+			shift
+			;;
+		--repo=*)
+			docker_repo=${1#*=}
+			;;
+		-d| --dry-run)
+			dry_run=true
+			;;
+		-h | --help | -\?)
+			help
+			exit 0
+			;;
+		-v|--version)
+			version=$2
+			shift
+			;;
+		--version=*)
+			version=${1#*=}
+			;;
+		--*)
+			warn "unknown option -- ${1#--}"
+			usage
+			exit 1
+			;;
+		*)
+			warn "unknown option -- ${1#-}"
+			usage
+			exit 1
+			;;
+	esac
+	shift
+done
+
+if [[ $version ]]; then
+    if [[ "$version" =~ ^v.*$ ]]; then
+	warn "INVALID VERSION: should not start with 'v' - %s" "$version"
+	usage
+	exit 1
+    fi
+else
+    warn "YOU MUST SPECIFY A VERSION"
+    usage
+    exit 1
+fi
+
+PACKER_VARS=''
+for var in docker_base_image docker_repo version; do
+    if [ -n "${!var}" ]; then
+	    PACKER_VARS+="-var $var=${!var} "
+    fi
+done
+
+if [[ $dry_run ]]; then
+    cat <<-EOF
+		$PACKER_BIN build \\
+			-only=docker \\
+			${PACKER_VARS} \\
+			docker-template.json
+	EOF
+else
+    $PACKER_BIN build \
+		-only=docker \
+		${PACKER_VARS} \
+		docker-template.json
+fi
+
+exit $?

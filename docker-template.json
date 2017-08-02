@@ -1,13 +1,13 @@
 {
     "variables": {
 	"docker_repo": "appleby/lisp-in-small-pieces",
-	"docker_base_img": "archimg/base-devel",
+	"docker_base_image": "archimg/base-devel",
 	"version": "{{ isotime `2006.01.02` }}"
     },
     "builders": [
 	{
 	    "type": "docker",
-	    "image": "{{ user `docker_base_img` }}",
+	    "image": "{{ user `docker_base_image` }}",
 	    "commit": true,
 	    "changes": [
 		"LABEL version={{ user `version` }}",
