@@ -6,7 +6,7 @@
 
 **If you just want to run the scheme code for the book [_Lisp In Small Pieces_][LiSP], have a look at [appleby/Lisp-In-Small-Pieces][appleby-LiSP].** The README file for [appleby/Lisp-In-Small-Pieces][appleby-LiSP] explains how to setup a virtual dev environment using the VMs and/or docker image created here.
 
-**If you just want an example of a packer template that builds an Arch Linux system, have a look at [elasticdog/packer-arch][packer-arch].** This repo is derived from [elasticdog/packer-arch.][packer-arch].
+**If you just want an example of a packer template that builds an Arch Linux system, have a look at [elasticdog/packer-arch][packer-arch].** This repo is derived from [elasticdog/packer-arch][packer-arch].
 
 
 ## About this Repo
