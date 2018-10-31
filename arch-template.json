@@ -2,8 +2,8 @@
     "variables": {
 	"box_name": "lisp-in-small-pieces-vm",
 	"version": "{{ isotime `2006.01.02` }}",
-	"iso_url": "https://mirrors.kernel.org/archlinux/iso/2017.08.01/archlinux-2017.08.01-x86_64.iso",
-        "iso_checksum_url": "https://mirrors.kernel.org/archlinux/iso/2017.08.01/sha1sums.txt",
+        "iso_url": "https://mirrors.kernel.org/archlinux/iso/{{isotime \"2006.01\"}}.01/archlinux-{{isotime \"2006.01\"}}.01-x86_64.iso",
+        "iso_checksum_url": "https://mirrors.kernel.org/archlinux/iso/{{isotime \"2006.01\"}}.01/sha1sums.txt",
         "iso_checksum_type": "sha1",
         "ssh_timeout": "20m",
 	"country": "US",
@@ -103,6 +103,7 @@
         {
             "type": "shell",
             "execute_command": "{{ .Vars }} COUNTRY={{ user `country` }} sudo -E -S bash '{{ .Path }}'",
+            "expect_disconnect": true,
             "script": "scripts/install-base.sh"
         },
         {
@@ -125,6 +126,12 @@
 	{
             "type": "shell",
             "script": "scripts/lisp-in-small-pieces.sh"
+        },
+        {
+            "only": ["vmware-iso"],
+            "type": "shell",
+            "execute_command": "{{ .Vars }} sudo -E -S bash '{{ .Path }}'",
+            "script": "scripts/install-vmware.sh"
         },
         {
             "type": "shell",
