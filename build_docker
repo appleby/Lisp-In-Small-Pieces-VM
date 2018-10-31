@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ -f /etc/arch-release ]]; then
+if command -v packer-io > /dev/null 2>&1; then
     readonly PACKER_BIN='packer-io'
 else
     readonly PACKER_BIN='packer'
