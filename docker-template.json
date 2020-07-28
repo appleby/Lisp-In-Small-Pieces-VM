@@ -20,7 +20,7 @@
     "provisioners": [
 	{
 	    "type": "shell",
-	    "script": "scripts/pin_mirrorlist_to_archive.sh"
+	    "script": "scripts/pin-mirrorlist-to-archive.sh"
 	},
 	{
 	    "type": "shell",

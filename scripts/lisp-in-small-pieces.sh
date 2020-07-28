@@ -6,7 +6,7 @@ echo "==> Setting hostname"
 echo lisp-in-small-pieces-vm | sudo tee /etc/hostname > /dev/null
 
 echo "==> Installing git gambit-c bigloo indent and time"
-sudo /usr/bin/pacman -S --noconfirm git gambit-c bigloo indent time
+sudo /usr/bin/pacman -S --noconfirm git mit-scheme gambit-c bigloo time
 
 echo "==> Creating tmpdir"
 tmpdir=$(/usr/bin/mktemp --directory --tmpdir=${HOME})
@@ -22,9 +22,9 @@ pushd cower
 /usr/bin/makepkg -scri --noconfirm
 popd
 
-echo "==> Installing mit-scheme"
-/usr/bin/cower -d mit-scheme
-pushd mit-scheme
+echo "==> Installing indent"
+/usr/bin/cower -d indent
+pushd indent
 /usr/bin/makepkg -scri --noconfirm
 popd
 
