@@ -1,6 +1,4 @@
-output/*
-output/*.box
-output-qemu/*
+output*
 packer_cache
 .vagrant
 README.html

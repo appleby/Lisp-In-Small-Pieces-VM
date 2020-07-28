@@ -5,7 +5,8 @@
         "iso_url": "https://mirrors.kernel.org/archlinux/iso/{{isotime \"2006.01\"}}.01/archlinux-{{isotime \"2006.01\"}}.01-x86_64.iso",
         "iso_checksum_url": "https://mirrors.kernel.org/archlinux/iso/{{isotime \"2006.01\"}}.01/sha1sums.txt",
         "ssh_timeout": "20m",
-	"country": "US",
+        "country": "US",
+        "write_zeros": "true",
         "headless": "false"
     },
     "builders": [
@@ -24,6 +25,8 @@
                 "/usr/bin/curl -O http://{{ .HTTPIP }}:{{ .HTTPPort }}/poweroff.timer<enter><wait5>",
                 "/usr/bin/bash ./enable-ssh.sh<enter>"
             ],
+            "cpus": 1,
+            "memory": 768,
             "disk_size": 20480,
             "ssh_username": "vagrant",
             "ssh_password": "vagrant",
@@ -45,6 +48,8 @@
                 "/usr/bin/curl -O http://{{ .HTTPIP }}:{{ .HTTPPort }}/poweroff.timer<enter><wait5>",
                 "/usr/bin/bash ./enable-ssh.sh<enter>"
             ],
+            "cpus": 1,
+            "memory": 768,
             "disk_size": 20480,
             "hard_drive_interface": "sata",
             "ssh_username": "vagrant",
@@ -66,6 +71,8 @@
                 "/usr/bin/curl -O http://{{ .HTTPIP }}:{{ .HTTPPort }}/poweroff.timer<enter><wait5>",
                 "/usr/bin/bash ./enable-ssh.sh<enter>"
             ],
+            "cpus": 1,
+            "memory": 768,
             "disk_size": 20480,
             "ssh_username": "vagrant",
             "ssh_password": "vagrant",
@@ -86,6 +93,8 @@
                 "/usr/bin/curl -O http://{{ .HTTPIP }}:{{ .HTTPPort }}/poweroff.timer<enter><wait5>",
                 "/usr/bin/bash ./enable-ssh.sh<enter>"
             ],
+            "cpus": 1,
+            "memory": 768,
             "disk_size": 20480,
             "ssh_username": "vagrant",
             "ssh_password": "vagrant",
@@ -130,7 +139,7 @@
         },
         {
             "type": "shell",
-            "execute_command": "{{ .Vars }} sudo -E -S bash '{{ .Path }}'",
+            "execute_command": "{{ .Vars }} WRITE_ZEROS={{ user `write_zeros` }} sudo -E -S bash '{{ .Path }}'",
             "script": "scripts/cleanup.sh"
         }
     ],
