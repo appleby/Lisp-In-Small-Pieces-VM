@@ -10,15 +10,13 @@ sudo /usr/bin/pacman -S --noconfirm git mit-scheme gambit-c bigloo indent time
 
 echo "==> Creating tmpdir"
 tmpdir=$(/usr/bin/mktemp --directory --tmpdir=${HOME})
-pushd ${tmpdir}
+pushd "$tmpdir"
 
-echo "==> Installing cower"
-/usr/bin/curl -L -O https://aur.archlinux.org/cgit/aur.git/snapshot/cower.tar.gz
-/usr/bin/tar xf cower.tar.gz
+echo "==> Installing auracle"
+/usr/bin/curl -L -O https://aur.archlinux.org/cgit/aur.git/snapshot/auracle-git.tar.gz
+/usr/bin/tar xf auracle-git.tar.gz
 
-pushd cower
-# IPv4 is required for the docker builder.
-/usr/bin/gpg --keyserver ipv4.pool.sks-keyservers.net --recv-key 487EACC08557AD082088DABA1EB2638FF56C0C53
+pushd auracle-git
 /usr/bin/makepkg -scri --noconfirm
 popd
 
@@ -30,4 +28,4 @@ popd
 
 popd # Pop out of tmpdir
 echo "==> Removing tmpdir"
-rm -rf ${tmpdir}
+rm -rf "$tmpdir"
