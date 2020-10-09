@@ -15,7 +15,7 @@ pushd "$tmpdir"
 echo "==> Installing mit-scheme"
 # Chris Hanson <cph@chris-hanson.org>
 /usr/bin/gpg --keyserver keys.gnupg.net --recv-keys C9E40BAAFD0CB132
-/usr/bin/mv /tmp/PKGBUILD .
+/usr/bin/cp /tmp/PKGBUILD .
 /usr/bin/makepkg -scri --noconfirm
 
 echo "==> Installing auracle"
