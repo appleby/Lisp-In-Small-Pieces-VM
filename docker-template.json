@@ -27,6 +27,11 @@
             "script": "scripts/docker.sh"
 	},
 	{
+	    "type": "file",
+	    "source": "mit-scheme-PKGBUILD",
+	    "destination": "/tmp/PKGBUILD"
+	},
+	{
 	    "type": "shell",
 	    "execute_command": "{{ .Vars }} sudo -u lisper -E -S HOME=/home/lisper bash '{{ .Path }}'",
             "script": "scripts/lisp-in-small-pieces.sh"

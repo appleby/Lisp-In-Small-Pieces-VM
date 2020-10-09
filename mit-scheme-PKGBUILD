@@ -1,0 +1,32 @@
+# Maintainer: Alad Wenter <alad@mailbox.org>
+# Contributor: Bartłomiej Piotrowski <nospam@bpiotrowski.pl>
+# Contributor: peter feigl <peter.feigl@gmail.com>
+
+pkgname=mit-scheme
+pkgver=10.1.11
+pkgrel=1
+pkgdesc='MIT/GNU Scheme'
+url='https://www.gnu.org/software/mit-scheme/'
+arch=('x86_64')
+license=('GPL')
+depends=('ncurses' 'zlib')
+optdepends=('openssl: support for openssl')
+source=("https://ftp.gnu.org/gnu/mit-scheme/stable.pkg/$pkgver/$pkgname-$pkgver-x86-64.tar.gz"
+        "https://ftp.gnu.org/gnu/mit-scheme/stable.pkg/$pkgver/$pkgname-$pkgver-x86-64.tar.gz.sig")
+validpgpkeys=('424626C56C4AA9DB11194C07E3AA82D81B352C01'
+              '8F664EF430167B808170D35AC9E40BAAFD0CB132') # Chris Hanson <cph@chris-hanson.org>
+sha256sums=('SKIP'
+            'SKIP')
+
+build() {
+    cd "$pkgname-$pkgver"/src
+    ./configure --prefix=/usr \
+        --with-x \
+        --enable-native-code
+    make
+}
+
+package() {
+    cd "$pkgname-$pkgver"/src
+    make DESTDIR="$pkgdir" install
+}
