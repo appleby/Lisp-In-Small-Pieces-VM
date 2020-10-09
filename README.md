@@ -28,6 +28,8 @@ To build the vagrant box and virtualbox ovf, run:
 ./wrapacker -v <VERSION>
 ```
 
+where `<VERSION>` is just a bare version string, like `0.6`.
+
 Output files are placed in the `output` directory.
 
 To build the docker image, run:
