@@ -1,7 +1,7 @@
 {
     "variables": {
 	"docker_repo": "appleby/lisp-in-small-pieces",
-	"docker_base_image": "archimg/base-devel",
+	"docker_base_image": "archlinux/base",
 	"version": "{{ isotime `2006.01.02` }}"
     },
     "builders": [
@@ -13,7 +13,7 @@
 		"LABEL version={{ user `version` }}",
 		"USER lisper",
 		"WORKDIR /home/lisper",
-		"CMD [\"/usr/bin/bash\"]"
+		"CMD [\"-c\", \"/usr/bin/bash\"]"
 	    ]
 	}
     ],
