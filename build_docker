@@ -28,7 +28,7 @@ usage() {
 	EOF
 }
 
-elp() {
+print_help() {
 	cat <<-EOF
 
 	NAME
@@ -92,7 +92,7 @@ while [[ $1 != '' ]]; do
 			dry_run=true
 			;;
 		-h | --help | -\?)
-			help
+			print_help
 			exit 0
 			;;
 		-v|--version)
