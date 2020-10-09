@@ -1,0 +1,4 @@
+* Next release
+** TODO switch to [[https://app.vagrantup.com/archlinux/boxes/archlinux][official archlinux vagrant boxes]]
+** TODO switch back to mit-scheme in arch repos
+** TODO check and see if [[https://github.com/gambit/gambit/issues/384][gambit bug]] is fixed
